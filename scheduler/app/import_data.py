@@ -107,8 +107,10 @@ def call_api_create_dataset(ckan_params, data):
 def create_dataset_name(feed_url):
     domain_name = retrieve_domain_name(feed_url)
     file_name = retrieve_file_name(feed_url)
-    return re.sub('[^0-9a-zA-Z]+', '-', domain_name + "-" + file_name).lower();
+    return change_non_alpha_or_minus_to_minus(domain_name + "-" + file_name).lower()
 
+def change_non_alpha_or_minus_to_minus(str):
+    return re.sub('[^0-9a-zA-Z]+', '-', str)
 
 def retrieve_file_name(feed_url):
     return feed_url.rstrip("/").rstrip(" ").split("/")[-1].split(".")[0]
