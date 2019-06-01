@@ -94,4 +94,4 @@ target/
 assets/bundles/
 
 
-*.sqlite3
+*/*.sqlite3
