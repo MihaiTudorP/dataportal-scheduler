@@ -22,7 +22,7 @@ def retrieve_feed(feed_url):
         print("Error retrieving the feed")
     return records
 
-def setup(token, ckan_url, dataset_uri, feed_url):
+def setup(token, ckan_url, feed_url):
     ckan_params = config_ckan(token, ckan_url, dataset_uri);
     package_id = create_dataset(feed_url, ckan_params)
     create_initial_upload(ckan_params, feed_url, package_id)
@@ -120,8 +120,15 @@ def retrieve_domain_name(feed_url):
     return feed_url.lstrip("http://").split("/")[0]
 
 
-def update():
+def update(token, ckan_url, dataset_uri, feed_url):
+    ckan_params = config_ckan(token, ckan_url, feed_url)
     pass
+
+def config_ckan(token, ckan_url):
+    ckan_url = ckan_url.rstrip("/")
+    ckan_params = {"token": token, "ckan_url": ckan_url}
+    print(ckan_params)
+    return ckan_params
 
 def config_ckan(token, ckan_url, dataset_uri):
     ckan_url = ckan_url.rstrip("/")
@@ -144,7 +151,7 @@ if __name__ == '__main__':
           "\nDataset URI: " + dataset_uri +
           "\nCKAN url: " + ckan_url)
     try:
-        setup(token, ckan_url, dataset_uri, feed_url)
+        setup(token, ckan_url, feed_url)
     except Exception as error:
         if (repr(error).__contains__("That URL is already in use.")):
             print("update")
